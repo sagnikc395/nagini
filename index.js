@@ -66,6 +66,7 @@ let currentSnakeState = [
   [0, 1],
   [0, 2],
   [0, 3],
+  [0,4],
 ];
 
 function moveRight([top, left]) {
@@ -91,16 +92,25 @@ let currentDirection = moveRight;
 window.addEventListener("keydown", (e) => {
   switch (e.key) {
     case "ArrowLeft":
-      currentDirection = moveLeft;
+      if (currentDirection !== moveRight) {
+        currentDirection = moveLeft;
+      }
       break;
+
     case "ArrowRight":
-      currentDirection = moveRight;
+      if (currentDirection !== moveLeft) {
+        currentDirection = moveRight;
+      }
       break;
     case "ArrowUp":
-      currentDirection = moveUp;
+      if (currentDirection !== moveDown) {
+        currentDirection = moveUp;
+      }
       break;
     case "ArrowDown":
-      currentDirection = moveDown;
+      if (currentDirection !== moveUp) {
+        currentDirection = moveDown;
+      }
       break;
   }
 });
