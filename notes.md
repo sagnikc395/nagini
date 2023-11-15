@@ -1,0 +1,3 @@
+- make a box to hold the 'canvas'
+- make a bunch of pixels relative and then holding them
+- 
