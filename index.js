@@ -68,8 +68,6 @@ let currentSnakeState = [
   [0, 3],
 ];
 
-
-
 function moveRight([top, left]) {
   return [top, left + 1];
 }
@@ -88,6 +86,25 @@ function moveDown([top, left]) {
 
 let currentDirection = moveRight;
 
+//adding keystroke input
+
+window.addEventListener("keydown", (e) => {
+  switch (e.key) {
+    case "ArrowLeft":
+      currentDirection = moveLeft;
+      break;
+    case "ArrowRight":
+      currentDirection = moveRight;
+      break;
+    case "ArrowUp":
+      currentDirection = moveUp;
+      break;
+    case "ArrowDown":
+      currentDirection = moveDown;
+      break;
+  }
+});
+
 function step() {
   currentSnakeState.shift();
   let head = currentSnakeState[currentSnakeState.length - 1];
@@ -100,4 +117,4 @@ function step() {
 drawSnake(currentSnakeState);
 setInterval(() => {
   step();
-}, 1000);
+}, 100);
