@@ -41,14 +41,6 @@ function initializeCanvas() {
 
 initializeCanvas();
 
-drawSnake([
-  [0, 0],
-  [0, 1],
-  [0, 2],
-  [0, 3],
-  [0, 4],
-]);
-
 function drawSnake(snake) {
   //preprocess the snake positions
   let snakePositions = new Set();
@@ -64,9 +56,26 @@ function drawSnake(snake) {
       let position = i + "_" + j;
       //grab the corresponding pixel.
       let pixel = pixels.get(position);
-      pixel.style.background = snakePositions.has(position)
-        ? "black"
-        : "white";
+      pixel.style.background = snakePositions.has(position) ? "black" : "white";
     }
   }
 }
+
+let currentSnakeState = [
+  [0, 0],
+  [0, 1],
+  [0, 2],
+  [0, 3],
+];
+
+function step() {
+  currentSnakeState.shift();
+  let head = currentSnakeState[currentSnakeState.length-1];
+  currentSnakeState.push([head[0], head[1] + 1]);
+  drawSnake(currentSnakeState);
+}
+
+drawSnake(currentSnakeState);
+setInterval(() => {
+  step();
+}, 1000);
