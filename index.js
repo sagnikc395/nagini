@@ -68,10 +68,32 @@ let currentSnakeState = [
   [0, 3],
 ];
 
+
+
+function moveRight([top, left]) {
+  return [top, left + 1];
+}
+
+function moveLeft([top, left]) {
+  return [top, left - 1];
+}
+
+function moveUp([top, left]) {
+  return [top - 1, left];
+}
+
+function moveDown([top, left]) {
+  return [top + 1, left];
+}
+
+let currentDirection = moveRight;
+
 function step() {
   currentSnakeState.shift();
-  let head = currentSnakeState[currentSnakeState.length-1];
-  currentSnakeState.push([head[0], head[1] + 1]);
+  let head = currentSnakeState[currentSnakeState.length - 1];
+  //currentSnakeState.push([head[0], head[1] + 1]);
+  let nextHead = currentDirection(head);
+  currentSnakeState.push(nextHead);
   drawSnake(currentSnakeState);
 }
 
