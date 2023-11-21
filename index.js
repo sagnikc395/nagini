@@ -66,7 +66,7 @@ let currentSnakeState = [
   [0, 1],
   [0, 2],
   [0, 3],
-  [0,4],
+  [0, 4],
 ];
 
 function moveRight([top, left]) {
@@ -86,39 +86,82 @@ function moveDown([top, left]) {
 }
 
 let currentDirection = moveRight;
-
+let flushedDirection = currentDirection;
 //adding keystroke input
+
+let directionQueue = [];
 
 window.addEventListener("keydown", (e) => {
   switch (e.key) {
     case "ArrowLeft":
-      if (currentDirection !== moveRight) {
-        currentDirection = moveLeft;
-      }
+    case "A":
+    case "a":
+      // if (flushedDirection !== moveRight) {
+      //   currentDirection = moveLeft;
+      // }
+      // break;
+      directionQueue.push(moveLeft);
       break;
 
     case "ArrowRight":
-      if (currentDirection !== moveLeft) {
-        currentDirection = moveRight;
-      }
+    case "D":
+    case "d":
+      // if (flushedDirection !== moveLeft) {
+      //   currentDirection = moveRight;
+      // }
+      // break;
+      directionQueue.push(moveRight);
+      break;
       break;
     case "ArrowUp":
-      if (currentDirection !== moveDown) {
-        currentDirection = moveUp;
-      }
+    case "w":
+    case "W":
+      // if (flushedDirection !== moveDown) {
+      //   currentDirection = moveUp;
+      // }
+      // break;
+      directionQueue.push(moveUp);
       break;
     case "ArrowDown":
-      if (currentDirection !== moveUp) {
-        currentDirection = moveDown;
-      }
+    case "s":
+    case "S":
+      // if (flushedDirection !== moveUp) {
+      //   currentDirection = moveDown;
+      // }
+      // break;
+      directionQueue.push(moveDown);
       break;
   }
 });
 
+function areOpposite(dir1, dir2) {
+  if (dir1 === moveLeft && dir2 === moveRight) {
+    return true;
+  } else if (dir1 === moveRight && dir2 == moveLeft) {
+    return true;
+  } else if (dir1 == moveUp && dir2 == moveDown) {
+    return true;
+  } else if (dir1 == moveDown && dir2 === moveUp) {
+    return true;
+  }
+  return false;
+}
+
 function step() {
   currentSnakeState.shift();
   let head = currentSnakeState[currentSnakeState.length - 1];
-  //currentSnakeState.push([head[0], head[1] + 1]);
+  //update the current direction
+  let nextDirection = currentDirection;
+  while (directionQueue.length > 0) {
+    let candidateDirection = directionQueue.shift();
+    //check if in opposite direction or not
+    if (areOpposite(candidateDirection, currentDirection)) {
+      continue;
+    }
+    nextDirection = candidateDirection;
+    break;
+  }
+  currentDirection = nextDirection;
   let nextHead = currentDirection(head);
   currentSnakeState.push(nextHead);
   drawSnake(currentSnakeState);

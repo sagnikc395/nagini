@@ -8,6 +8,8 @@ dom -> contains the dom implementation of the snake game made to learn the logic
 ref : [Link](https://www.youtube.com/watch?v=dFRiNUp-FT0)
 
 
+// Resume from 45:29
+
 
 
 
