@@ -112,7 +112,6 @@ window.addEventListener("keydown", (e) => {
       // break;
       directionQueue.push(moveRight);
       break;
-      break;
     case "ArrowUp":
     case "w":
     case "W":
@@ -132,6 +131,7 @@ window.addEventListener("keydown", (e) => {
       directionQueue.push(moveDown);
       break;
   }
+  //dump(directionQueue);
 });
 
 function areOpposite(dir1, dir2) {
@@ -170,4 +170,8 @@ function step() {
 drawSnake(currentSnakeState);
 setInterval(() => {
   step();
-}, 100);
+}, 80);
+
+function dump(obj) {
+  document.getElementById("debug").innerText = JSON.stringify(obj);
+}
