@@ -41,6 +41,16 @@ function initializeCanvas() {
 
 initializeCanvas();
 
+//TODO: memoize the position
+function getSnakePositionSet(snake) {
+  let snakePosition = new Set();
+  for (let [top, left] of snake) {
+    let posn = top + "_" + left;
+    snakePosition.add(posn);
+  }
+  return snakePosition;
+}
+
 function drawSnake(snake) {
   //preprocess the snake positions
   let snakePositions = new Set();
@@ -163,12 +173,38 @@ function step() {
   }
   currentDirection = nextDirection;
   let nextHead = currentDirection(head);
+  // currentSnakeState.push(nextHead);
+  if (!checkValidHead(currentSnakeState, nextHead)) {
+    stopGame();
+    return;
+  }
   currentSnakeState.push(nextHead);
   drawSnake(currentSnakeState);
 }
+function checkValidHead(snake, [top, left]) {
+  if (top < 0 || left < 0) {
+    return false;
+  }
+  if (top >= ROWS || left >= COLS) {
+    return false;
+  }
+  //return true;
+  let snakePositions = getSnakePositionSet(snake);
+  let position = top + "_" + left;
+  if (snakePositions.has(position)) {
+    return false;
+  }
+  return true;
+}
+
+function stopGame() {
+  canvas.style.borderColor = "red";
+  //once hit the board edges then stop
+  clearInterval(gameInterval);
+}
 
 drawSnake(currentSnakeState);
-setInterval(() => {
+let gameInterval = setInterval(() => {
   step();
 }, 80);
 
